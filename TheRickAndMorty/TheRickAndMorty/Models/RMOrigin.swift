@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct RMORigin {
+/// RMOrigin Model
+struct RMORigin: Codable {
     let name: String
     let url: String
-
 }
