@@ -9,22 +9,24 @@ import UIKit
 
 final class RMCharacterViewController: UIViewController {
     
+    private var characterListView = CharacterListView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .systemBackground
         title = "Character"
-        RMService.shared.execute(.listCharactersRequest, expecting: RMGetAllCharactersResponse.self) { result in
-            switch result {
-            case .success(let model):
-                print("Total: \(model.info.count)")
-                print("Pages: \(model.results.count)")
-            case .failure(let error):
-                print(String(describing: error))
-            }
-        }
+        
+        setUpView()
+    }
+    
+    private func setUpView() {
+        view.addSubview(characterListView)
+        NSLayoutConstraint.activate([
+            characterListView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            characterListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            characterListView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            characterListView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor)
+        ])
     }
     
 }
-
-//peki bundan sonraki süreç hakkında bir bilgi verdiler mi sana ya da kaç kişi alınacağını vs. biliyor musun? Benimle ik mülakat yapmadı
