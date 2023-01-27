@@ -12,7 +12,8 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -39,6 +40,7 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = .secondarySystemBackground
         contentView.addSubviews(imageView, nameLabel, statusLabel)
         addConstraints()
+        setUpLayer()
     }
     
     required init?(coder: NSCoder) {
@@ -63,6 +65,20 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
             imageView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
             imageView.bottomAnchor.constraint(equalTo: nameLabel.topAnchor, constant: -3),
         ])
+    }
+    
+    /// Bu kod parçası, bir iOS uygulamasının görünümünün değiştiğinde çalışacak bir fonksiyon tanımlar. Bu metod, cihazın ekran boyutu, yatay/dikey modu, yükseklik/genişlik oranı gibi görünüm özellikleri değiştiğinde çalışır. Bu metod, ekran boyutları ve görünüm özellikleri değiştiğinde, uygulamanın görünümünü yeniden yapılandırmak için kullanılabilir.
+    /// - Parameter previousTraitCollection: Bu kod parçası içerisinde yapılacak işlemler yazılmasa dahi, metodun çalışması sağlanmış olur. Bu metodun içerisinde yapacağınız işlemler ile uygulamanın görünümünü dinamik olarak değiştirebilirsiniz.
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        setUpLayer()
+    }
+    
+    private func setUpLayer() {
+        contentView.layer.cornerRadius = 8
+        contentView.layer.shadowColor = UIColor.label.cgColor
+        contentView.layer.shadowOffset = CGSize(width: -4, height: 4)
+        contentView.layer.shadowOpacity = 0.3
     }
     
     override func prepareForReuse() {
